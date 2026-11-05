@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Learning Platform</title>
+  <!-- Link to external CSS stylesheet -->
+  <link rel="stylesheet" href="Design.css">
+  <!-- FontAwesome Icons for clean UI elements -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ==================== TOP NAVIGATION BAR ==================== -->
+  <header class="navbar">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap"></i> Apex Learn
+    </div>
+
+    <!-- Navigation links for switching between the 5 pages -->
+    <nav class="nav-links">
+      <a href="#" class="nav-item active" onclick="switchPage('home')">Home</a>
+      <a href="#" class="nav-item" onclick="switchPage('courses')">Courses</a>
+      <a href="#" class="nav-item" onclick="switchPage('opportunities')">Opportunities</a>
+      <a href="#" class="nav-item" onclick="switchPage('credits')">Credits</a>
+      <a href="#" class="nav-item highlight-link" onclick="switchPage('premium')"><i class="fa-solid fa-crown"></i> Buy Premium</a>
+    </nav>
+
+    <!-- User Authentication & Profile Controls -->
+    <div class="nav-actions">
+      <!-- Unauthenticated state (Shown by default) -->
+      <div id="auth-buttons">
+        <button class="btn btn-outline" onclick="openModal('login-modal')">Login</button>
+        <button class="btn btn-primary" onclick="openModal('signup-modal')">Sign Up</button>
+      </div>
+
+      <!-- Authenticated state (Hidden until user logs in) -->
+      <div id="user-profile-trigger" class="profile-trigger hidden" onclick="toggleProfileDrawer()">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="avatar">
+        <span class="online-indicator"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== PROFILE SLIDE-OUT DRAWER ==================== -->
+  <!-- This side drawer opens when clicking the avatar icon after login -->
+  <div id="profile-drawer" class="drawer">
+    <div class="drawer-header">
+      <h3>User Profile</h3>
+      <button class="close-btn" onclick="toggleProfileDrawer()">&times;</button>
+    </div>
+    <div class="drawer-body">
+      <div class="profile-summary">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Profile Large" class="avatar-large">
+        <h4 id="profile-name">Alex Johnson</h4>
+        <p id="profile-email">alex.johnson@example.com</p>
+        <span class="badge badge-free" id="profile-badge">Free Plan</span>
+      </div>
+      <hr class="divider">
+      <div class="profile-stats">
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Enrolled</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">12</span>
+          <span class="stat-label">Certificates</span>
+        </div>
+      </div>
+      <div class="drawer-menu">
+        <a href="#" class="drawer-item"><i class="fa-solid fa-user-gear"></i> Account Settings</a>
+        <a href="#" class="drawer-item"><i class="fa-solid fa-book-bookmark"></i> Saved Courses</a>
+        <a href="#" class="drawer-item" onclick="switchPage('premium'); toggleProfileDrawer();"><i class="fa-solid fa-star"></i> Upgrade to Pro</a>
+      </div>
+      <button class="btn btn-danger btn-full" onclick="handleLogout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- Main backdrop tint when drawer is active -->
+  <div id="drawer-overlay" class="overlay" onclick="toggleProfileDrawer()"></div>
+
+
+  <!-- ==================== MAIN CONTENT PAGES ==================== -->
+  <main class="content-container">
+
+    <!-- PAGE 1: HOME -->
+    <section id="page-home" class="page-section active">
+      <div class="hero">
+        <span class="hero-tag">Master New Skills</span>
+        <h1>Accelerate Your Technical Career Today</h1>
+        <p>Interactive learning, industry certifications, and direct pathways to top global tech opportunities.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-large" onclick="switchPage('courses')">Explore Courses</button>
+          <button class="btn btn-outline btn-large" onclick="switchPage('premium')">View Plans</button>
+        </div>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fa-solid fa-laptop-code feature-icon"></i>
+          <h3>Practical Projects</h3>
+          <p>Build real portfolio-ready software with instant automated code evaluation feedback.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fa-solid fa-certificate feature-icon"></i>
+          <h3>Verified Diplomas</h3>
+          <p>Earn recognizable credentials shareable directly to your LinkedIn and employer profiles.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fa-solid fa-briefcase feature-icon"></i>
+          <h3>Career Placement</h3>
+          <p>Get exclusive early access to global remote job postings and direct recruiter referrals.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PAGE 2: COURSES -->
+    <section id="page-courses" class="page-section">
+      <div class="page-header">
+        <h2>Explore Available Courses</h2>
+        <p>Filter by skill level or domain to start learning instantly.</p>
+      </div>
+
+      <!-- Course Filtering Control -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCourses('all')">All</button>
+        <button class="filter-btn" onclick="filterCourses('dev')">Development</button>
+        <button class="filter-btn" onclick="filterCourses('ai')">AI & Data</button>
+        <button class="filter-btn" onclick="filterCourses('design')">Design</button>
+      </div>
+
+      <div class="grid-3">
+        <!-- Course Item 1 -->
+        <div class="card course-card" data-category="dev">
+          <span class="card-badge">Development</span>
+          <h3>Full-Stack Web Engineering</h3>
+          <p>Master modern web stacks including HTML5, CSS3, JavaScript ES6+, and API integration.</p>
+          <div class="card-footer">
+            <span class="price">Free</span>
+            <button class="btn btn-sm btn-primary" onclick="enrollDemo('Full-Stack Web Engineering')">Enroll Now</button>
+          </div>
+        </div>
+
+        <!-- Course Item 2 -->
+        <div class="card course-card" data-category="ai">
+          <span class="card-badge">AI & Data</span>
+          <h3>Applied Data Science & Machine Learning</h3>
+          <p>Analyze complex data structures, train regression models, and visualize real data insights.</p>
+          <div class="card-footer">
+            <span class="price badge-pro"><i class="fa-solid fa-crown"></i> Premium</span>
+            <button class="btn btn-sm btn-outline" onclick="switchPage('premium')">Unlock</button>
+          </div>
+        </div>
+
+        <!-- Course Item 3 -->
+        <div class="card course-card" data-category="design">
+          <span class="card-badge">Design</span>
+          <h3>UI/UX System Architecture</h3>
+          <p>Design modern minimalist web interfaces with accessibility, tokens, and micro-interactions.</p>
+          <div class="card-footer">
+            <span class="price">Free</span>
+            <button class="btn btn-sm btn-primary" onclick="enrollDemo('UI/UX System Architecture')">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PAGE 3: OPPORTUNITIES -->
+    <section id="page-opportunities" class="page-section">
+      <div class="page-header">
+        <h2>Career & Internship Opportunities</h2>
+        <p>Hand-curated software engineering and research positions for active learners.</p>
+      </div>
+
+      <div class="job-list">
+        <div class="job-card">
+          <div class="job-info">
+            <span class="job-type">Full-time</span>
+            <h3>Junior Frontend Developer</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Remote &bull; Tech Corp Inc.</p>
+          </div>
+          <button class="btn btn-outline" onclick="applyDemo('Junior Frontend Developer')">Apply Fast</button>
+        </div>
+
+        <div class="job-card">
+          <div class="job-info">
+            <span class="job-type">Internship</span>
+            <h3>AI Research Assistant</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Hybrid &bull; Open Intelligence Labs</p>
+          </div>
+          <button class="btn btn-outline" onclick="applyDemo('AI Research Assistant')">Apply Fast</button>
+        </div>
+
+        <div class="job-card">
+          <div class="job-info">
+            <span class="job-type">Contract</span>
+            <h3>Technical Writer & Content Creator</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Remote &bull; Apex Media Platform</p>
+          </div>
+          <button class="btn btn-outline" onclick="applyDemo('Technical Writer')">Apply Fast</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PAGE 4: CREDITS -->
+    <section id="page-credits" class="page-section">
+      <div class="page-header">
+        <h2>Platform Credits & Acknowledgments</h2>
+        <p>Recognizing the foundational tools, frameworks, and team members behind this platform build.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><i class="fa-solid fa-code"></i> Core Technologies</h3>
+          <ul class="styled-list">
+            <li><strong>HTML5 Engine:</strong> Semantic structural framework.</li>
+            <li><strong>CSS3 Styling:</strong> Flexbox, Grid layout engines, CSS Variables.</li>
+            <li><strong>Vanilla JavaScript (ES6+):</strong> Pure modular client logic execution without heavy dependencies.</li>
+            <li><strong>FontAwesome Icons:</strong> Vector graphical UI elements.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><i class="fa-solid fa-users"></i> Development Team</h3>
+          <ul class="styled-list">
+            <li><strong>Lead Engineering:</strong> Platform Architecture Team</li>
+            <li><strong>UI/UX Design:</strong> Studio Aesthetic Systems</li>
+            <li><strong>QA & Security:</strong> Automated Testing Lab</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PAGE 5: BUY PREMIUM -->
+    <section id="page-premium" class="page-section">
+      <div class="page-header text-center">
+        <h2>Upgrade to Apex Premium</h2>
+        <p>Unlock unrestricted access to advanced tracks, 1-on-1 mentorship, and job placements.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Free Plan Tier -->
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="price-amount">$0 <span>/ month</span></div>
+          <ul class="pricing-features">
+            <li><i class="fa-solid fa-check text-success"></i> Access to starter courses</li>
+            <li><i class="fa-solid fa-check text-success"></i> Public community forum access</li>
+            <li><i class="fa-solid fa-xmark text-muted"></i> No mentorship support</li>
+            <li><i class="fa-solid fa-xmark text-muted"></i> Basic completion certificates</li>
+          </ul>
+          <button class="btn btn-outline btn-full" disabled>Current Plan</button>
+        </div>
+
+        <!-- Premium Featured Plan Tier -->
+        <div class="pricing-card featured">
+          <span class="popular-badge">Most Popular</span>
+          <h3>Pro Developer</h3>
+          <div class="price-amount">$29 <span>/ month</span></div>
+          <ul class="pricing-features">
+            <li><i class="fa-solid fa-check text-success"></i> Access all premium course tracks</li>
+            <li><i class="fa-solid fa-check text-success"></i> Direct 1-on-1 code reviews</li>
+            <li><i class="fa-solid fa-check text-success"></i> Premium Career board access</li>
+            <li><i class="fa-solid fa-check text-success"></i> Verified certificates</li>
+          </ul>
+          <button class="btn btn-primary btn-full" onclick="checkoutDemo('Pro Developer Plan')">Subscribe Now</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ==================== MODAL DIALOGS (LOGIN & SIGNUP) ==================== -->
+  
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Account Login</h3>
+        <button class="close-btn" onclick="closeModal('login-modal')">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="login-email" required placeholder="name@domain.com" value="alex.johnson@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" required value="password123">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SIGNUP MODAL -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Create New Account</h3>
+        <button class="close-btn" onclick="closeModal('signup-modal')">&times;</button>
+      </div>
+      <form onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signup-name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="signup-email" required placeholder="name@domain.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signup-password" required minlength="6">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Register Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Backdrop for modals -->
+  <div id="modal-overlay" class="overlay" onclick="closeAllModals()"></div>
+
+  <!-- Linking external JavaScript file containing interations -->
+  <script src="Core.js"></script>
+</body>
+</html>
